@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebAR - Gelombang Elektromagnetik (Antigravity)</title>
+    
+    <!-- A-Frame & MindAR Scripts -->
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.1/dist/mindar-image-aframe.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.2.0/dist/aframe-extras.min.js"></script>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- UI Overlay Z-Index Tertinggi -->
+    <div id="ui-layer">
+        <!-- Overlay Halaman Awal -->
+        <div id="start-screen" class="modern-start-screen">
+            <header class="start-header">
+                <div class="logo-text">WebAR Gelombang</div>
+                <nav>
+                    <a href="#petunjuk">Petunjuk</a>
+                    <a href="#tentang">Tentang</a>
+                </nav>
+            </header>
+            
+            <main class="start-main">
+                <div class="hero-section">
+                    <h1 class="hero-title">WebAR Gelombang Elektromagnetik</h1>
+                    <h2 class="hero-subtitle">Jelajahi Pembelajaran Interaktif dengan Augmented Reality</h2>
+                    <p class="hero-desc">Hadirkan objek pembelajaran dalam bentuk 3D dan pelajari materi secara lebih interaktif melalui kamera perangkat Anda.</p>
+                    <p class="hero-dev">Dikembangkan oleh Nur Afika</p>
+                    
+                    <div class="hero-actions">
+                        <button id="start-btn" class="btn-primary">Mulai AR</button>
+                        <a href="#petunjuk" class="btn-secondary">Petunjuk Penggunaan</a>
+                    </div>
+                    <p class="camera-note"><small>Izin kamera diperlukan saat memulai AR.</small></p>
+                    <p id="error-msg" class="error-text" style="display: none;">Akses kamera ditolak atau perangkat tidak mendukung.</p>
+                </div>
+
+                <div id="petunjuk" class="steps-section">
+                    <h3 class="section-title">Cara Penggunaan</h3>
+                    <div class="steps-grid">
+                        <div class="step-card">
+                            <div class="step-icon">📄</div>
+                            <h4>1. Siapkan Marker</h4>
+                            <p>Siapkan perangkat dan media pemindaian (marker target) yang telah dicetak.</p>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-icon">📷</div>
+                            <h4>2. Izinkan Kamera</h4>
+                            <p>Tekan "Mulai AR" dan berikan izin akses kamera pada browser Anda.</p>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-icon">✨</div>
+                            <h4>3. Pindai Marker</h4>
+                            <p>Arahkan kamera ke marker untuk memunculkan objek 3D gelombang.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tech-instructions">
+                    <details class="accordion">
+                        <summary>Petunjuk Teknis Lengkap</summary>
+                        <div class="accordion-content">
+                            <h5>Persiapan:</h5>
+                            <ul>
+                                <li>Gunakan perangkat (smartphone/tablet) yang memiliki kamera belakang.</li>
+                                <li>Gunakan browser modern yang mendukung teknologi AR Web (seperti Google Chrome atau Safari).</li>
+                                <li>Pastikan pencahayaan ruangan cukup terang dan lensa kamera Anda bersih.</li>
+                                <li>Siapkan gambar marker target yang sesuai dengan materi gelombang.</li>
+                                <li>Aplikasi memerlukan koneksi internet untuk memuat aset 3D di awal.</li>
+                            </ul>
+                            <h5>Cara Memulai:</h5>
+                            <ul>
+                                <li>Tekan tombol "Mulai AR" di halaman ini.</li>
+                                <li>Berikan izin akses kamera saat diminta oleh browser.</li>
+                                <li>Tunggu hingga sistem kamera dan aset pembelajaran selesai dimuat sepenuhnya.</li>
+                                <li>Arahkan kamera ke arah marker. Pastikan marker terlihat utuh dalam layar dan jaga perangkat tetap stabil.</li>
+                                <li>Gunakan kontrol pembelajaran yang muncul (jika tersedia).</li>
+                            </ul>
+                            <h5>Pemecahan Masalah:</h5>
+                            <ul>
+                                <li><strong>Kamera tidak aktif:</strong> periksa kembali izin privasi kamera browser dan pastikan kamera tidak sedang digunakan oleh aplikasi lain.</li>
+                                <li><strong>Target tidak terdeteksi:</strong> pastikan bidang marker rata, terlihat utuh, tidak tertutup jari, mendapat cahaya cukup, dan tidak terkena pantulan (silau) berlebihan.</li>
+                                <li><strong>Objek belum muncul:</strong> tunggu pemuatan aset hingga selesai dan periksa koneksi internet Anda jika diperlukan.</li>
+                                <li><strong>Tampilan tersendat:</strong> tutup tab atau aplikasi lain yang memberatkan memori, dan kurangi gerakan perangkat yang terlalu cepat.</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+
+                <div id="tentang" class="about-section">
+                    <h3>Tentang Aplikasi</h3>
+                    <p>Aplikasi Augmented Reality ini merupakan media pembelajaran interaktif yang bertujuan memvisualisasikan konsep fisika Gelombang Elektromagnetik, Transversal, dan Longitudinal secara lebih nyata dan menarik.</p>
+                    <p><strong>Pengembang: Nur Afika</strong></p>
+                </div>
+            </main>
+
+            <footer class="start-footer">
+                <p>&copy; 2026 WebAR Gelombang Elektromagnetik - Nur Afika</p>
+            </footer>
+        </div>
+
+        <!-- Tombol Kembali Saat AR Aktif -->
+        <div id="ar-ui" class="ar-active-ui" style="display: none;">
+            <button id="back-btn" class="btn-back">← Kembali</button>
+        </div>
+
+        <!-- Toast Notification (targetFound) -->
+        <div id="toast-notification" class="toast hidden">
+            <span id="toast-text">Sistem mendeteksi marker...</span>
+        </div>
+
+        <!-- Placeholder DOM untuk Tahap 2 (Kontrol Fisika) -->
+        <div id="controls-container" class="controls hidden">
+            <!-- Slider akan diinjeksi di sini pada Tahap 2 -->
+            <button id="btn-simulasi" class="btn-primary" style="display: none; margin: 15px auto;">Buka Simulasi Interaktif</button>
+        </div>
+
+        <!-- Wadah Simulasi Iframe -->
+        <div id="simulation-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #181818; z-index: 1000; flex-direction: column; pointer-events: auto; padding-top: 60px;">
+            <!-- Tombol Tutup Melayang (Floating) -->
+            <button id="close-simulasi" style="position: absolute; top: 15px; right: 15px; z-index: 1001; padding: 10px 20px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(5px); color: white; border: 1px solid rgba(255,255,255,0.2); border-radius: 30px; cursor: pointer; font-weight: 600; font-family: 'Inter', sans-serif; display: flex; align-items: center; gap: 8px;">
+                ✕ Tutup
+            </button>
+            <iframe id="sim-iframe" src="" style="width: 100%; height: calc(100% - 60px); flex-grow: 1; border: none; background: transparent;"></iframe>
+        </div>
+    </div>
+
+    <!-- WebGL A-Frame Scene (MindAR) -->
+    <!-- Secara default kita arahkan mindar-image="imageTargetSrc: ./targets.mind;" -->
+    <a-scene id="ar-scene" 
+        mindar-image="imageTargetSrc: ./targets.mind?v=2; autoStart: false; uiLoading: no; uiError: no; uiScanning: no;" 
+        color-space="sRGB" 
+        renderer="colorManagement: true, physicallyCorrectLights" 
+        vr-mode-ui="enabled: false" 
+        device-orientation-permission-ui="enabled: false">
+        
+        <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
+        <!-- Kategori Dasar Gelombang -->
+        <a-entity mindar-image-target="targetIndex: 0" id="target-0">
+            <!-- 3D Model: Gelombang Transversal -->
+            <a-gltf-model src="./assets/models/gelombang-transversal-animasi.glb" class="ar-model" position="0 0 0" scale="0.1 0.1 0.1" visible="false"></a-gltf-model>
+        </a-entity>
+        
+        <a-entity mindar-image-target="targetIndex: 1" id="target-1">
+            <!-- 3D Model: Gelombang Longitudinal -->
+            <a-gltf-model src="./assets/models/gelombang-longitudinal-animasi.glb" class="ar-model" position="0 0 0" scale="0.1 0.1 0.1" visible="false"></a-gltf-model>
+        </a-entity>
+
+        <a-entity mindar-image-target="targetIndex: 2" id="target-2">
+            <!-- Placeholder Sementara: Silinder Hijau (Rapatan & Renggangan) -->
+            <a-cylinder class="ar-model" position="0 0 0" scale="0.3 0.5 0.3" color="green" visible="false"></a-cylinder>
+            <!-- <a-gltf-model src="./assets/models/rapatan.glb" class="ar-model" position="0 0 0" scale="0.1 0.1 0.1" visible="false"></a-gltf-model> -->
+        </a-entity>
+
+        <!-- Kategori Sifat & Prinsip Gelombang -->
+        <!-- Index 3 (Polarisasi), Index 4 (Int Konstruktif), Index 5 (Int Destruktif), Index 6 (Celah Ganda) -->
+        <a-entity mindar-image-target="targetIndex: 3" id="target-3"></a-entity>
+        <a-entity mindar-image-target="targetIndex: 4" id="target-4"></a-entity>
+        <a-entity mindar-image-target="targetIndex: 5" id="target-5"></a-entity>
+        <a-entity mindar-image-target="targetIndex: 6" id="target-6"></a-entity>
+
+        <!-- Kategori Aplikasi Teknologi -->
+        <a-entity mindar-image-target="targetIndex: 7" id="target-7">
+            <!-- 3D Model: Seismograf -->
+            <!-- <a-gltf-model src="./assets/models/seismograf.glb" class="ar-model" position="0 0 0" scale="0.1 0.1 0.1" visible="false"></a-gltf-model> -->
+        </a-entity>
+        
+        <a-entity mindar-image-target="targetIndex: 8" id="target-8">
+            <!-- 3D Model: USG -->
+            <!-- <a-gltf-model src="./assets/models/usg.glb" class="ar-model" position="0 0 0" scale="0.1 0.1 0.1" visible="false"></a-gltf-model> -->
+        </a-entity>
+        
+        <a-entity mindar-image-target="targetIndex: 9" id="target-9">
+            <!-- 3D Model: Maglev -->
+            <!-- <a-gltf-model src="./assets/models/maglev.glb" class="ar-model" position="0 0 0" scale="0.1 0.1 0.1" visible="false"></a-gltf-model> -->
+        </a-entity>
+
+    </a-scene>
+
+    <script src="app.js"></script>
+</body>
+</html>
