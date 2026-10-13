@@ -205,6 +205,8 @@ document.addEventListener("DOMContentLoaded", () => {
         ctx.fillText(text, width / 2, height / 2);
 
         const texture = new THREE.CanvasTexture(canvas);
+        texture.flipY = false; // Memperbaiki orientasi agar teks tidak terbalik (sesuai konvensi glTF UV)
+        if (THREE.sRGBEncoding) texture.encoding = THREE.sRGBEncoding;
         texture.needsUpdate = true;
         return texture;
     }
