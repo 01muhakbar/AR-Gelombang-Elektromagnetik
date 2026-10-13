@@ -226,19 +226,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
         mesh.traverse((child) => {
             if (child.isMesh && child.material) {
-                const conf = textBadgeConfigs[child.material.name] || textBadgeConfigs[child.name];
+                const mat = Array.isArray(child.material) ? child.material[0] : child.material;
+                const matName = mat && mat.name ? mat.name.trim() : '';
+                const nodeName = child.name ? child.name.trim() : '';
+
+                // Fuzzy match agar cocok meskipun nama memiliki prefix/suffix dari Three.js
+                let conf = textBadgeConfigs[matName] || textBadgeConfigs[nodeName];
+                if (!conf) {
+                    for (const key in textBadgeConfigs) {
+                        if ((matName && matName.includes(key)) || (nodeName && nodeName.includes(key))) {
+                            conf = textBadgeConfigs[key];
+                            break;
+                        }
+                    }
+                }
+
                 if (conf && !child.userData.badgeUpgraded) {
                     const badgeTex = createTextBadgeTexture(conf.text, conf.w, conf.h, conf.color, conf.border);
                     if (badgeTex) {
-                        const newMat = child.material.clone();
-                        newMat.map = badgeTex;
-                        newMat.emissive = new THREE.Color(0xffffff);
-                        newMat.emissiveMap = badgeTex;
-                        newMat.transparent = true;
-                        newMat.needsUpdate = true;
-                        child.material = newMat;
-                        // Sedikit offset sumbu Z (+0.02) agar mengambang bersih di depan garis
-                        child.position.z += 0.02;
+                        // Gunakan MeshBasicMaterial agar mandiri 100% tanpa bayangan gelap
+                        child.material = new THREE.MeshBasicMaterial({
+                            map: badgeTex,
+                            transparent: true,
+                            depthWrite: false,
+                            depthTest: true,
+                            side: THREE.DoubleSide
+                        });
+                        child.renderOrder = 999; // Selalu dirender di atas garis gelombang
+                        child.position.z += 0.03;
                         child.userData.badgeUpgraded = true;
                     }
                 }
@@ -255,6 +270,14 @@ document.addEventListener("DOMContentLoaded", () => {
             upgradeModelTextMaterials(modelEl);
         }
     });
+
+    // Safety Poller: Memastikan material teks ter-upgrade bahkan jika dimuat secara asinkron
+    let pollCount = 0;
+    const upgradePoller = setInterval(() => {
+        document.querySelectorAll('.ar-model').forEach(upgradeModelTextMaterials);
+        pollCount++;
+        if (pollCount > 20) clearInterval(upgradePoller);
+    }, 200);
 
     // Menangani Event Lifecycle Object 3D
     const targets = document.querySelectorAll('[mindar-image-target]');
