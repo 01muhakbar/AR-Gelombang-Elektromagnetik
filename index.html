@@ -149,21 +149,25 @@
         
         <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
+        <!-- Lighting Rig Studio WebGL (Memperjelas Kontras & Kecerahan Model 3D) -->
+        <a-light type="ambient" color="#ffffff" intensity="1.4"></a-light>
+        <a-light type="directional" color="#ffffff" position="1 2 3" intensity="1.6"></a-light>
+
         <!-- Kategori Dasar Gelombang -->
         <a-entity mindar-image-target="targetIndex: 0" id="target-0">
-            <!-- 3D Model: Gelombang Transversal -->
-            <a-gltf-model src="./assets/models/gelombang-transversal-animasi.glb" class="ar-model" position="0 0 0" scale="0.1 0.1 0.1" visible="false"></a-gltf-model>
+            <!-- 3D Model: Gelombang Transversal (Diperbesar 3.5x, Melayang Z: 0.25, Sudut Perspektif) -->
+            <a-gltf-model src="./assets/models/gelombang-transversal-animasi.glb" class="ar-model" position="0 0.05 0.25" rotation="15 -10 0" scale="0.35 0.35 0.35" visible="false"></a-gltf-model>
         </a-entity>
         
         <a-entity mindar-image-target="targetIndex: 1" id="target-1">
-            <!-- 3D Model: Gelombang Longitudinal -->
-            <a-gltf-model src="./assets/models/gelombang-longitudinal-animasi.glb" class="ar-model" position="0 0 0" scale="0.1 0.1 0.1" visible="false"></a-gltf-model>
+            <!-- 3D Model: Gelombang Longitudinal (Diperbesar 3.5x, Melayang Z: 0.25, Sudut Perspektif) -->
+            <a-gltf-model src="./assets/models/gelombang-longitudinal-animasi.glb" class="ar-model" position="0 0.05 0.25" rotation="15 -10 0" scale="0.35 0.35 0.35" visible="false"></a-gltf-model>
         </a-entity>
 
         <a-entity mindar-image-target="targetIndex: 2" id="target-2">
             <!-- Placeholder Sementara: Silinder Hijau (Rapatan & Renggangan) -->
-            <a-cylinder class="ar-model" position="0 0 0" scale="0.3 0.5 0.3" color="green" visible="false"></a-cylinder>
-            <!-- <a-gltf-model src="./assets/models/rapatan.glb" class="ar-model" position="0 0 0" scale="0.1 0.1 0.1" visible="false"></a-gltf-model> -->
+            <a-cylinder class="ar-model" position="0 0.05 0.25" scale="0.4 0.6 0.4" color="green" visible="false"></a-cylinder>
+            <!-- <a-gltf-model src="./assets/models/rapatan.glb" class="ar-model" position="0 0.05 0.25" scale="0.35 0.35 0.35" visible="false"></a-gltf-model> -->
         </a-entity>
 
         <!-- Kategori Sifat & Prinsip Gelombang -->
