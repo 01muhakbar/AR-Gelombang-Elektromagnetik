@@ -62,9 +62,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let currentScaleMultiplier = 1.0;
     const baseScales = {
-        'target-0': 0.65,
-        'target-1': 0.65,
-        'target-2': 0.60
+        'target-0': 0.16,
+        'target-1': 0.16,
+        'target-2': 0.25
     };
 
     function applyZoom() {
@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         document.querySelectorAll('.ar-model').forEach(model => {
             const parentTarget = model.closest('[mindar-image-target]');
-            const base = (parentTarget && baseScales[parentTarget.id]) ? baseScales[parentTarget.id] : 0.65;
+            const base = (parentTarget && baseScales[parentTarget.id]) ? baseScales[parentTarget.id] : 0.16;
             const s = (base * currentScaleMultiplier).toFixed(3);
             model.setAttribute('scale', `${s} ${s} ${s}`);
         });
@@ -177,12 +177,10 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             activeTarget = targetIndex;
 
-            // Tampilkan aset (gltf) dan plat isolator kontras di dalamnya
-            const elementsToDisplay = target.querySelectorAll('.ar-model, .ar-backplate');
-            elementsToDisplay.forEach(el => el.setAttribute('visible', 'true'));
-
+            // Tampilkan aset (gltf) di dalamnya
             const model = target.querySelector('.ar-model');
             if (model) {
+                model.setAttribute('visible', 'true');
                 // Panggil animasi looping dari aframe-extras
                 model.setAttribute('animation-mixer', 'clip: *; loop: repeat');
                 applyZoom();
@@ -205,11 +203,9 @@ document.addEventListener("DOMContentLoaded", () => {
             
             // Debounce / Delay 500ms - 1000ms untuk mencegah flickering
             loseTimeouts[targetIndex] = setTimeout(() => {
-                const elementsToHide = target.querySelectorAll('.ar-model, .ar-backplate');
-                elementsToHide.forEach(el => el.setAttribute('visible', 'false'));
-
                 const model = target.querySelector('.ar-model');
                 if (model) {
+                    model.setAttribute('visible', 'false');
                     // Hentikan animasi
                     model.removeAttribute('animation-mixer');
                 }
